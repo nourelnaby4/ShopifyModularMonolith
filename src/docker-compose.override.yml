@@ -1,0 +1,12 @@
+services:
+  shopifydb:
+    container_name: shopifydb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=shopifydb
+    restart: always
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_shopifydb:/var/lib/postgresql/data/    

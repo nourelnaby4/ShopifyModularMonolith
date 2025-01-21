@@ -1,0 +1,6 @@
+services:
+  shopifydb:
+    image: postgres
+
+volumes:
+  postgres_shopifydb:
