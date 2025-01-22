@@ -14,7 +14,6 @@ internal class GetProductsHandler(CatalogDbContext dbContext)
                 .OrderBy(p => p.Name)
                 .ToListAsync(cancellationToken);
 
-        //mapping product entity to ProductDto using Mapster
         var productDtos = products.Adapt<List<ProductDto>>();
 
         return new GetProductsResult(productDtos);
