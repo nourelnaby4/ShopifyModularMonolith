@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Catalog;
+
 public static class CatalogModule
 {
     public static IServiceCollection AddCatalogModule(this IServiceCollection services,
@@ -29,6 +30,8 @@ public static class CatalogModule
             options.UseNpgsql(connectionString);
         });
 
+        services.AddScoped<IDataSeeder, CatalogDataSeeder>();
+
         return services;
     }
 
@@ -41,6 +44,7 @@ public static class CatalogModule
         // 2. Use Application Use Case services
 
         // 3. Use Data - Infrastructure services  
+        app.UseMigration<CatalogDbContext>();
 
         return app;
     }
