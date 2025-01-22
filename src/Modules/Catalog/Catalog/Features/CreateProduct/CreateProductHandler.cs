@@ -1,7 +1,4 @@
-﻿using Catalog.Products.Dtos;
-using Shared.CQRS;
-
-namespace Catalog.Products.Features.CreateProduct;
+﻿namespace Catalog.Features.CreateProduct;
 
 public record CreateProductCommand(ProductDto Product)
     : ICommand<CreateProductResult>;
