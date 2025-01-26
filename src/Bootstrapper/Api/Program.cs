@@ -1,3 +1,5 @@
+using Api;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
@@ -7,27 +9,17 @@ builder.Services
 builder.Services
     .AddCatalogModule(builder.Configuration)
     .AddBasketModule(builder.Configuration)
-    .AddOrderingModule(builder.Configuration);
+    .AddOrderingModule(builder.Configuration)
+    .AddStartupConfigration();
 
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Shopify V1");
-        options.RoutePrefix = string.Empty;
-    });
-}
-
 app.MapCarter();
 
 app
+    .UseStartupConfigration()
     .UseCatalogModule()
     .UseBasketModule()
     .UseOrderingModule();
