@@ -2,6 +2,9 @@ using Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseSerilog((context, config) =>
+    config.ReadFrom.Configuration(context.Configuration));
+
 builder.Services
     .AddCarterWithAssemblies(typeof(CatalogModule).Assembly);
 
