@@ -5,26 +5,35 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((context, config) =>
     config.ReadFrom.Configuration(context.Configuration));
 
-builder.Services
-    .AddCarterWithAssemblies(typeof(CatalogModule).Assembly);
+var catalogAssembly = typeof(CatalogModule).Assembly;
+var basketAssembly = typeof(BasketModule).Assembly;
 
-// Add services to the container.
+builder.Services
+    .AddCarterWithAssemblies(catalogAssembly, basketAssembly);
+
+builder.Services
+    .AddMediatRWithAssemblies(catalogAssembly, basketAssembly);
+
 builder.Services
     .AddCatalogModule(builder.Configuration)
     .AddBasketModule(builder.Configuration)
     .AddOrderingModule(builder.Configuration)
     .AddStartupConfigration();
 
+builder.Services
+    .AddExceptionHandler<CustomExceptionHandler>();
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 app.MapCarter();
+app.UseSerilogRequestLogging();
+app.UseExceptionHandler(options => { });
 
 app
-    .UseStartupConfigration()
     .UseCatalogModule()
     .UseBasketModule()
-    .UseOrderingModule();
+    .UseOrderingModule()
+    .UseStartupConfigration();
 
 app.Run();
